@@ -96,10 +96,10 @@ public class PhoneBookAppFile {
 
     // Метод для сохранения данных в файл
     private static void saveToFile(String filename, String content) throws IOException {
-        // Создаем объект для записи в файл
-        try (FileWriter fileWriter = new FileWriter(filename)) {
+        // Создаем объект для записи в файл с проверкой на его наличие (true)
+        try (FileWriter fileWriter = new FileWriter(filename, true)) {
             // Записываем содержимое в файл
-            fileWriter.write(content);
+            fileWriter.write(content + "\n");
         }
     }
 }
