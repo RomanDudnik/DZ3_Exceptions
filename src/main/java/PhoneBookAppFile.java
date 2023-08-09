@@ -1,8 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 public class PhoneBookAppFile {
     public static void main(String[] args) {
         // Создаем объект для считывания пользовательского ввода
@@ -29,7 +27,7 @@ public class PhoneBookAppFile {
             // Формируем имя файла на основе фамилии
             String filename = surname + ".txt";
             // Формируем содержимое файла
-            String fileContent = surname + firstName + middleName + dateOfBirth + " " + phoneNumber + gender;
+            String fileContent = surname + " " + firstName + " " + middleName + " " + dateOfBirth + " " + phoneNumber + " " + gender;
 
             // Сохраняем данные в файл
             saveToFile(filename, fileContent);
@@ -48,9 +46,21 @@ public class PhoneBookAppFile {
         String[] data = userData.split(" ");
 
         // Создаем список для хранения отдельных значений
-        List<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<>(Arrays.asList("", "", "", "", "", ""));
         for (String item : data) {
-            result.add(item.trim());    // Добавляем каждое значение в список, удаляя лишние пробелы
+            if (item.matches("[0-9]+")) { // Проверка на число
+                result.set(4, item);
+            } else if (item.equals("f") || item.equals("m")) { // Проверка на пол
+                result.set(5, item);
+            } else if (item.contains(".")) { // Проверка на дату
+                result.set(3, item);
+            } else if (result.get(0).isEmpty()) { // Проверка на фамилию
+                result.set(0, item);
+            } else if (result.get(1).isEmpty()) { // Проверка на имя
+                result.set(1, item);
+            } else if (result.get(2).isEmpty()) { // Проверка на отчество
+                result.set(2, item);
+            }
         }
 
         return result;
